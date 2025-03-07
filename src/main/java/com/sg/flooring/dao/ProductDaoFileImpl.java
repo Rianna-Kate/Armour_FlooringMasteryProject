@@ -15,6 +15,12 @@ public class ProductDaoFileImpl implements ProductDao{
         read();
     }
 
+    /**
+     * Reads each line of text, separating into tokens that are then assigned to Product Object
+     * variables to create and add a Product object to the hashmap.
+     * @param productsAsText
+     * @return
+     */
     private Product unmarshallProduct(String productsAsText) {
         String[] productTokens = productsAsText.split(DELIMITER);
         String productType = productTokens[0];
@@ -27,6 +33,11 @@ public class ProductDaoFileImpl implements ProductDao{
         return productFromFile;
     }
 
+    /**
+     * Organize variables of Product object into text so that it can be written to a file.
+     * @param aProduct
+     * @return
+     */
     private String marshallProduct(Product aProduct) {
         String productAsText = aProduct.getProductType() + DELIMITER;
         productAsText += aProduct.getCostPerSqft() + DELIMITER;
@@ -35,6 +46,10 @@ public class ProductDaoFileImpl implements ProductDao{
         return productAsText;
     }
 
+    /**
+     * Reading all Products objects from the file "Products.txt" file
+     * @throws FlooringDataPersistenceException
+     */
     private void read()
             throws FlooringDataPersistenceException {
         Scanner scanner;
@@ -62,6 +77,7 @@ public class ProductDaoFileImpl implements ProductDao{
         scanner.close();
     }
 
+    // Never used
     private void write() throws FlooringDataPersistenceException {
         PrintWriter out;
 
@@ -83,12 +99,23 @@ public class ProductDaoFileImpl implements ProductDao{
         out.close();
     }
 
+    /**
+     * Get Product object based on specified text.
+     * @param productType - Type of Product to be sold. (Ex. Wood, Laminate, etc.)
+     * @return Product object based on product type.
+     * @throws ProductNotFoundException
+     */
     @Override
     public Product getProduct(String productType)
     throws ProductNotFoundException {
         return products.get(productType);
     }
 
+    /**
+     * Get the list of all Product objects in the products hashmap
+     * @return List of all Product Objects within the products hashmap
+     * @throws FlooringDataPersistenceException
+     */
     @Override
     public List<Product> getAllProducts()
             throws FlooringDataPersistenceException {

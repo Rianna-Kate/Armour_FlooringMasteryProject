@@ -25,13 +25,23 @@ public class OrderDaoFileImpl implements OrderDao {
         FILE_NAME = textFile;
     }
 
-
+    /**
+     * Gets All orders within orders hashmap
+     * @return list of all Order objects
+     * @throws FlooringDataPersistenceException
+     */
     @Override
     public List<Order> getAllOrders() throws
             FlooringDataPersistenceException {
         return new ArrayList<Order>(orders.values());
     }
 
+    /**
+     * Used to get Local Dates based on a specific date through lambda stream.
+     * @param orderDate
+     * @return list of orders on a specific date
+     * @throws FlooringDataPersistenceException
+     */
     @Override
     public List<Order> getAllOrders(LocalDate orderDate) throws
             FlooringDataPersistenceException {
@@ -42,6 +52,12 @@ public class OrderDaoFileImpl implements OrderDao {
         return ordersByDate;
     }
 
+    /**
+     * Adding order to hashmap
+     * @param order - The Order to be processed and put into the order hashmap
+     * @return
+     * @throws FlooringDataPersistenceException
+     */
     @Override
     public Order addOrder(Order order) throws
             FlooringDataPersistenceException {
@@ -56,6 +72,13 @@ public class OrderDaoFileImpl implements OrderDao {
         return prevOrder;
     }
 
+    /**
+     * Get order based on an order date and an order number.
+     * @param orderDate
+     * @param orderNumber
+     * @return An existing object if it exists within hashmap, otherwise null
+     * @throws OrderNotFoundException
+     */
     @Override
     public Order getOrder(LocalDate orderDate, int orderNumber) throws
             OrderNotFoundException {
@@ -65,6 +88,12 @@ public class OrderDaoFileImpl implements OrderDao {
         return null;
     }
 
+    /**
+     * Edit order if it exists in the system.
+     * @param order
+     * @return Order object that is either edited or not.
+     * @throws FlooringDataPersistenceException
+     */
     @Override
     public Order editOrder(Order order) throws
             FlooringDataPersistenceException {
@@ -72,6 +101,13 @@ public class OrderDaoFileImpl implements OrderDao {
         return editedOrder;
     }
 
+    /**
+     * Order object will be removed from the order hashmap if it exists.
+     * @param orderDate
+     * @param orderNumber
+     * @return Order object that is to be removed or null if it does not exist.
+     * @throws FlooringDataPersistenceException
+     */
     @Override
     public Order removeOrder(LocalDate orderDate, int orderNumber) throws
             FlooringDataPersistenceException {
@@ -81,6 +117,12 @@ public class OrderDaoFileImpl implements OrderDao {
         return null;
     }
 
+    /**
+     * Reads each line of text, seperating into tokens that are then assigned to Order Object
+     * variables to create and add an Order object to the hashmap.
+     * @param orderAsText
+     * @return Order Object that was specified in a line in the text file
+     */
     private Order unmarshallOrder(String orderAsText) {
         String[] orderTokens = orderAsText.split(DELIMITER);
         String orderNumber = orderTokens[0];
@@ -108,17 +150,27 @@ public class OrderDaoFileImpl implements OrderDao {
         return orderFromFile;
     }
 
+    /**
+     * Organize variables of Order object into text so that it can be written to a file.
+     * @param anOrder
+     * @return Formatted String
+     */
     private String marshallOrder(Order anOrder) {
         return anOrder.toString();
     }
 
+    /**
+     * Reading all Orders from the files in each file specified by "Objects_" and then defined by the
+     * date as instructed.
+     * @throws FlooringDataPersistenceException
+     */
     private void read()
             throws FlooringDataPersistenceException {
         Scanner scanner;
 
         File folder = new File("Orders");
 
-
+        // Looking for the Orders folder and if there is files will separate.
         if (folder.exists() && folder.isDirectory()) {
             File[] files = folder.listFiles();
 
@@ -159,6 +211,10 @@ public class OrderDaoFileImpl implements OrderDao {
         }
     }
 
+    /**
+     * Writing Order objects to text files specified by LocalDates
+     * @throws FlooringDataPersistenceException
+     */
     private void write() throws FlooringDataPersistenceException {
         File folder = new File("Orders");
 

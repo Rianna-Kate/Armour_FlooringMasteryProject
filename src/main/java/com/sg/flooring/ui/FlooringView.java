@@ -30,7 +30,12 @@ public class FlooringView {
                 .fromInt(io.readInt("Please select an option 1 through " + (values.length - 1), 1, values.length - 1));
     }
 
-    // Changed from UML diagram
+    /**
+     * Differing from UML diagram takes in an order to remove and checks if not null
+     * If not null, then user is prompted to confirm before deletion.
+     * @param orderToRemove
+     * @return Order to be removed from the order hashmap
+     */
     public Order displayRemoveOrder(Order orderToRemove) {
         displayHeader("-------Chosen Order-------");
         displayOrder(orderToRemove);
@@ -46,6 +51,14 @@ public class FlooringView {
         return orderToRemove;
     }
 
+    /**
+     * Prompts user for the variables that can be changed in the Order object
+     * If they do not put any input, it remains the same as it's cloned version.
+     * @param order
+     * @param products
+     * @param stateTaxes
+     * @return Order object clone regardless if edited or not
+     */
     public Order displayEditOrder(Order order, List<Product> products, List<StateTax> stateTaxes) { // TODO Must fix to use string not numbers for state and products
         Order editedOrder = new Order(order.getCustomerName());
         editedOrder.setCustomerName(order.getCustomerName());
@@ -158,6 +171,13 @@ public class FlooringView {
         displayPressEnterToContinue();
     }
 
+    /**
+     * Propmpt for creating an order an assignined needed variables to
+     * create Order object
+     * @param products
+     * @param states
+     * @return
+     */
     public Order displayAddOrder(List<Product> products, List<StateTax> states) {
         displayHeader("\n-------ORDER CREATION-------");
         LocalDate orderDate = io.readLocalDate("Enter a date.", LocalDate.now());

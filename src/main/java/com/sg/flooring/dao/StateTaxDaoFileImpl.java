@@ -16,6 +16,12 @@ public class StateTaxDaoFileImpl implements StateTaxDao {
         read();
     }
 
+    /**
+     * Reads each line of text, separating into tokens that are then assigned to StateTax Object
+     * variables to create and add an StateTax object to the hashmap.
+     * @param stateTaxesAsText
+     * @return
+     */
     private StateTax unmarshallStateTax(String stateTaxesAsText) {
         String[] taxTokens = stateTaxesAsText.split(DELIMITER);
         String stateAbbr = taxTokens[0];
@@ -28,6 +34,11 @@ public class StateTaxDaoFileImpl implements StateTaxDao {
         return stateTaxFromFile;
     }
 
+    /**
+     * Organize variables of StateTax object into text so that it can be written to a file.
+     * @param aState
+     * @return
+     */
     private String marshallStateTax(StateTax aState) {
         String stateTaxesAsText = aState.getStateAbbreviation() + DELIMITER;
         stateTaxesAsText += aState.getStateName() + DELIMITER;
@@ -36,6 +47,10 @@ public class StateTaxDaoFileImpl implements StateTaxDao {
         return stateTaxesAsText;
     }
 
+    /**
+     * Reading all StateTax objects from the file "StateTax.txt" file
+     * @throws FlooringDataPersistenceException
+     */
     private void read()
             throws FlooringDataPersistenceException {
         Scanner scanner;
@@ -61,6 +76,7 @@ public class StateTaxDaoFileImpl implements StateTaxDao {
         scanner.close();
     }
 
+    // Not used
     private void write()
             throws FlooringDataPersistenceException {
         PrintWriter out;
@@ -83,12 +99,23 @@ public class StateTaxDaoFileImpl implements StateTaxDao {
         out.close();
     }
 
+    /**
+     * Get StateTax object based on specified text.
+     * @param stateAbbreviation - Abbreviated version of state
+     * @return StateTax object that has the specified abbreviated state name
+     * @throws StateTaxNotFoundException
+     */
     @Override
     public StateTax getStateTax(String stateAbbreviation) throws
             StateTaxNotFoundException {
         return stateTaxes.get(stateAbbreviation);
     }
 
+    /**
+     * Get the list of all Product objects in the products hashmap
+     * @return List of all Product Objects within the products hashmap
+     * @throws FlooringDataPersistenceException
+     */
     @Override
     public List<StateTax> getAllStateTaxes() throws
             FlooringDataPersistenceException {
