@@ -27,8 +27,6 @@ class OrderDaoFileImplTest {
 
     @BeforeEach
     public void setUp() throws Exception {
-        String testFile = "Orders_";
-        new FileWriter(testFile);
 
         // This code was given by ChatGPT. I know how to delete a file correctly but not a folder and it's contents.
         directoryPath = Paths.get("Orders");
@@ -39,7 +37,7 @@ class OrderDaoFileImplTest {
                     .forEach(File::delete);
         }
 
-        orderDao = new OrderDaoFileImpl(testFile);
+        orderDao = new OrderDaoFileImpl();
     }
 
     @Test
